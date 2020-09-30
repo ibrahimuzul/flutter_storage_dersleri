@@ -9,6 +9,7 @@ class SharedPrefKullanimi extends StatefulWidget {
 class _SharedPrefKullanimiState extends State<SharedPrefKullanimi> {
   String isim;
   var isimController = TextEditingController();
+
   int id;
   var idController = TextEditingController();
   bool cinsiyet;
@@ -34,6 +35,7 @@ class _SharedPrefKullanimiState extends State<SharedPrefKullanimi> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("build");
     return Scaffold(
       appBar: AppBar(
         title: Text("Shared Pref Kullanımı"),
@@ -43,35 +45,8 @@ class _SharedPrefKullanimiState extends State<SharedPrefKullanimi> {
             key: formKey,
             child: Column(
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    onSaved: (deger) {
-                      isim = deger;
-                    },
-                    decoration: InputDecoration(
-                      labelText: "Isminizi giriniz",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
-                    controller: isimController,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextFormField(
-                    onSaved: (deger) {
-                      id = int.parse(deger);
-                    },
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: "ID giriniz",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10)),
-                    ),
-                    controller: idController,
-                  ),
-                ),
+                isminiziGirin(),
+                idOlustur(),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: RadioListTile(
@@ -79,6 +54,7 @@ class _SharedPrefKullanimiState extends State<SharedPrefKullanimi> {
                     groupValue: cinsiyet,
                     onChanged: (secildi) {
                       setState(() {
+                        debugPrint("x");
                         cinsiyet = secildi;
                       });
                     },
@@ -124,6 +100,25 @@ class _SharedPrefKullanimiState extends State<SharedPrefKullanimi> {
     );
   }
 
+  Padding idOlustur() {
+    debugPrint("id");
+    return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextFormField(
+                  onSaved: (deger) {
+                    id = int.parse(deger);
+                  },
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: "ID giriniz",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                  ),
+                  controller: idController,
+                ),
+              );
+  }
+
   void _ekle() async {
     formKey.currentState.save();
     debugPrint(isim);
@@ -134,15 +129,22 @@ class _SharedPrefKullanimiState extends State<SharedPrefKullanimi> {
   }
 
   void _goster() {
-    setState(() {
-      isim = (mySharedPrefences as SharedPreferences).getString("myIsim") ??
-          "NULL";
-      isimController.text = isim;
-      debugPrint("Okunan isim " + isim);
 
-      id = (mySharedPrefences as SharedPreferences).getInt("myId") ?? null;
-      idController.text=id.toString();
-      debugPrint("Okunan id " + id.toString());
+    isim = (mySharedPrefences as SharedPreferences).getString("myIsim") ??
+        "NULL";
+    //isimController.text = isim;
+    debugPrint("Okunan isim " + isim);
+
+    id = (mySharedPrefences as SharedPreferences).getInt("myId") ?? null;
+    //idController.text=id.toString();
+    debugPrint("Okunan id " + id.toString());
+
+
+    setState(() {
+
+    cinsiyet =
+        (mySharedPrefences as SharedPreferences).getBool("myCinsiyet") ??
+            true;
 
       cinsiyet =
           (mySharedPrefences as SharedPreferences).getBool("myCinsiyet") ??
@@ -157,5 +159,23 @@ class _SharedPrefKullanimiState extends State<SharedPrefKullanimi> {
     (mySharedPrefences as SharedPreferences).remove("myCinsiyet");
     (mySharedPrefences as SharedPreferences).remove("sil");
     (mySharedPrefences as SharedPreferences).remove("telNo");
+  }
+
+  isminiziGirin() {
+    debugPrint("isim");
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextFormField(
+        onSaved: (deger) {
+          isim = deger;
+        },
+        decoration: InputDecoration(
+          labelText: "Isminizi giriniz",
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10)),
+        ),
+        controller: isimController,
+      ),
+    );
   }
 }

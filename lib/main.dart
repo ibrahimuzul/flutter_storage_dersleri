@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_storage_dersleri/dosya_islemleri.dart';
+import 'package:flutter_storage_dersleri/sqlflite_islemleri.dart';
 
 import 'shared_pref_kullanimi.dart';
 
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       //home: SharedPrefKullanimi(),
-      home: DosyaIslemleri(),
+      //home: DosyaIslemleri(),
+      home: SqfliteIslemleri(),
     );
   }
 }
